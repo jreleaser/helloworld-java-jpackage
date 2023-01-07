@@ -1,0 +1,77 @@
+name: Assemble
+
+on:
+  workflow_call:
+    inputs:
+      project-version:
+        required: true
+        type: string
+      java-version:
+        default: '17'
+        required: false
+        type: string
+      java-distro:
+        default: 'zulu'
+        required: false
+        type: string
+
+jobs:
+  assemble:
+    name: 'Assemble ${{ matrix.os }}'
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest, macos-latest, windows-latest ]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: ${{ inputs.java-version }}
+          distribution: ${{ inputs.java-distro }}
+
+      - name: Cache Maven
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
+      - name: Setup JDKs
+        run: ./mvnw -ntp -B -q --file pom.xml -Pjdks
+        
+      - name: Build
+        run: ./mvnw -ntp -B --file pom.xml verify
+
+      - name: Assemble
+        uses: jreleaser/release-action@v2
+        with:
+          arguments: assemble
+        env:
+          JRELEASER_PROJECT_VERSION: ${{ inputs.project-version }}
+          JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: JReleaser output
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: jreleaser-release
+          path: |
+            out/jreleaser/trace.log
+            out/jreleaser/output.properties
+
+      - name: Upload jpackage
+        uses: actions/upload-artifact@v3
+        with:
+          retention-days: 1
+          path: |
+            out/jreleaser/assemble/helloworld/jpackage/*.pkg
+            out/jreleaser/assemble/helloworld/jpackage/*.msi
+            out/jreleaser/assemble/helloworld/jpackage/*.deb
+            out/jreleaser/assemble/helloworld/jpackage/*.rpm

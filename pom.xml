@@ -25,9 +25,9 @@
   <artifactId>helloworld</artifactId>
   <version>1.0.0-SNAPSHOT</version>
  
-  <name>helloworld-java-jlink</name>
+  <name>helloworld-java-jpackage</name>
   <description>HelloWorld in Java</description>
-  <url>https://github.com/jreleaser/helloworld-java-jlink</url>
+  <url>https://github.com/jreleaser/helloworld-java-jpackage</url>
   <inceptionYear>2023</inceptionYear>
   
   <properties>
@@ -56,9 +56,9 @@
   </developers>
 
   <scm>
-    <connection>scm:git:https://github.com/jreleaser/helloworld-java-jlink.git</connection>
-    <developerConnection>scm:git:https://github.com/jreleaser/helloworld-java-jlink.git</developerConnection>
-    <url>https://github.com/jreleaser/helloworld-java-jlink.git</url>
+    <connection>scm:git:https://github.com/jreleaser/helloworld-java-jpackage.git</connection>
+    <developerConnection>scm:git:https://github.com/jreleaser/helloworld-java-jpackage.git</developerConnection>
+    <url>https://github.com/jreleaser/helloworld-java-jpackage.git</url>
     <tag>HEAD</tag>
   </scm>
 

@@ -9,7 +9,7 @@ project:
   description: HelloWorld in Java
   longDescription: HelloWorld in Java
   links:
-    homepage: https://github.com/jreleaser/helloworld-java-jlink
+    homepage: https://github.com/jreleaser/helloworld-java-jpackage
   authors:
     - Andres Almiray
   license: APACHE-2.0
@@ -53,14 +53,14 @@ assemble:
       attachPlatform: true
       exported: false
       applicationPackage:
-        appName: hellworld
+        appName: helloworld
         appVersion: '{{projectVersionNumber}}'
         vendor: JReleaser
       osx:
         types: [pkg]
         appName: HelloWorld
         packageName: HelloWorld
-        packageIdentifier: org.jreleaser.examples.hellworld
+        packageIdentifier: org.jreleaser.examples.helloworld
       linux:
         types: [deb,rpm]
         maintainer: jreleaser@kordamp.org
