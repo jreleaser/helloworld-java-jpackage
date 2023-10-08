@@ -5,6 +5,7 @@ environment:
     artifactsDir: out/jreleaser/assemble/helloworld/jpackage
 
 project:
+  version: 1.0.0-SNAPSHOT
   name: helloworld
   description: HelloWorld in Java
   longDescription: HelloWorld in Java
