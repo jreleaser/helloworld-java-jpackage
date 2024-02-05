@@ -16,25 +16,19 @@ jobs:
       VERSION: ${{ steps.vars.outputs.VERSION }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Cancel previous run
-        uses: styfle/cancel-workflow-action@0.11.0
+        uses: styfle/cancel-workflow-action@0.12.1
         with:
           access_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Java
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: ${{ env.JAVA_VERSION }}
           distribution: ${{ env.JAVA_DISTRO }}
-
-      - name: Cache local Maven repository
-        uses: actions/cache@v3
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-maven-
+          cache: maven
 
       - name: Version
         id: vars
@@ -56,24 +50,28 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Download artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
+        with:
+          pattern: artifacts-*
+          merge-multiple: true
+          path: out/jreleaser/assemble/helloworld/jpackage
 
       - name: Release
         uses: jreleaser/release-action@v2
         with:
-          arguments: full-release -PartifactsDir=artifact
+          arguments: full-release
         env:
           JRELEASER_PROJECT_VERSION: ${{ needs.precheck.outputs.VERSION }}
           JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: JReleaser output
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           retention-days: 1
           name: jreleaser-release

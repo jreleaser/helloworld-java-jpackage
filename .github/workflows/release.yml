@@ -15,7 +15,7 @@ jobs:
       VERSION: ${{ steps.vars.outputs.VERSION }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Version
         id: vars
@@ -38,25 +38,29 @@ jobs:
     needs: [ precheck, assemble ]
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: main
           fetch-depth: 0
 
       - name: Download artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
+        with:
+          pattern: artifacts-*
+          merge-multiple: true
+          path: out/jreleaser/assemble/helloworld/jpackage
 
       - name: Release
         uses: jreleaser/release-action@v2
         with:
-          arguments: full-release -PartifactsDir=artifact
+          arguments: full-release
         env:
           JRELEASER_PROJECT_VERSION: ${{ needs.precheck.outputs.VERSION }}
           JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: JReleaser output
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           retention-days: 1
           name: jreleaser-release
