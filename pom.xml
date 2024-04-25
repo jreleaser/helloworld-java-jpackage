@@ -67,7 +67,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.12.1</version>
+        <version>3.13.0</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -92,7 +92,7 @@
           <plugin>
             <groupId>org.jreleaser</groupId>
             <artifactId>jdks-maven-plugin</artifactId>
-            <version>1.10.0</version>
+            <version>1.11.0</version>
             <configuration>
               <pkgs>
                 <pkg>
@@ -103,6 +103,11 @@
                 <pkg>
                   <name>zulu17OsxIntel</name>
                   <platform>osx-x86_64</platform>
+                  <version>${jdk.version}</version>
+                </pkg>
+                <pkg>
+                  <name>zulu17OsxArm</name>
+                  <platform>osx-aarch64</platform>
                   <version>${jdk.version}</version>
                 </pkg>
                 <pkg>

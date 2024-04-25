@@ -13,6 +13,7 @@ This repository shows how to configure link:https://github.com/features/actions[
  * compile a helloworld app with bundled Java Runtimes using jlink & jpackage for:
   ** `linux-x86_64` as RPM & DEB
   ** `osx-x86_64` as PKG
+  ** `osx-aarch_64` as PKG
   ** `windows-x86_64` as MSI
  * assemble distributions with JReleaser
  * create rolling early-access releases with JReleaser on every push to `main` branch
