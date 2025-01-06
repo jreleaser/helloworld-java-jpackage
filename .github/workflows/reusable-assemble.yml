@@ -47,7 +47,6 @@ jobs:
         uses: jreleaser/release-action@v2
         with:
           arguments: assemble --select-current-platform
-          version: early-access
         env:
           JRELEASER_PROJECT_VERSION: ${{ inputs.project-version }}
           JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
